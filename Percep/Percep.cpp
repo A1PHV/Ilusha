@@ -48,7 +48,7 @@ std::vector<std::vector<std::vector<int>>> number = {																	//Этал
 	  {1, 0, 1},
 	  {1, 1, 1} },
 
-	{ {1, 0, 1},
+	{ {1, 1, 1},
 	  {0, 0, 1},
 	  {1, 1, 1},
 	  {1, 0, 0},
@@ -77,7 +77,7 @@ int main()
 
 	for (int i = 0; i < 10; ++i)																						//Создание и обучение персептронов			
 	{
-		percep Perceptron = percep(number[i]);
+		percep Perceptron = percep(number, number[i]);
 
 		if (is_empty(is))
 		{
@@ -108,7 +108,6 @@ int main()
 	std::ofstream fs("weights.txt");
 	for (int i = 0; i < perceps.size(); ++i)																			//Вывод результатов
 	{
-		
 		std::vector<double> var;
 		for (int j = 0; j < perceps.size(); ++j)
 		{

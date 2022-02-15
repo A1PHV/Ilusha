@@ -5,9 +5,10 @@ private:
 	double iS;
 	double procOutS;
 	bool rA;
-	double bias = 0;										
-	const double CONST = 0.1;
-	std::vector<std::vector<int>> standards;
+	double bias = 0.3;										
+	const double CONST = 0.01;
+	std::vector<std::vector<std::vector<int>>> standards;
+	std::vector<std::vector<int>> numbers;
 
 public:		
 	std::vector<std::vector<double>> WW;
@@ -17,10 +18,13 @@ public:
 
 	}
 
-	percep(std::vector<std::vector<int>> standard)																//Конструктор класса
+	percep(std::vector<std::vector<std::vector<int>>> standard,
+		   std::vector<std::vector<int>> number)																//Конструктор класса
 	{
 		WW = std::vector<std::vector<double>>(5, std::vector<double>(3));
 		standards = standard;
+		numbers = number;
+
 	}
 
 	void fillWeight()																							//Заполнение весов																	
@@ -36,7 +40,7 @@ public:
 
 	bool takeRightAns(std::vector<std::vector<int>> vi)															//Получение правильного ответа
 	{
-		if (standards == vi)
+		if (numbers == vi)
 		{
 			return true;
 		}
@@ -70,35 +74,49 @@ public:
 	{
 		for (size_t i = 0; i < 1000000; ++i)
 		{
-			int randomizer = rand() % 3;
-
-
 			std::vector<std::vector<int>> vi;
-			for (int i = 0; i < 5; ++i)
+
+			int randomizer = rand() % 10;
+
+			if (!takeRightAns(standards[randomizer]))
+			{
+				randomizer = rand() % 10;
+				vi = standards[randomizer];
+			}
+			else
+			{
+				randomizer = rand() % 10;
+				vi = standards[randomizer];
+			}
+			
+
+			/*for (int i = 0; i < 5; ++i)
 			{
 				std::vector<int> tmp;
 				for (int j = 0; j < 3; ++j)
 				{
-					tmp.push_back(rand() % 2);
+					tmp.push_back(rand() % 100 > 50 ? -1 : 1);
 				}
 				vi.push_back(tmp);
-			}
+			}*/
 
-			if (randomizer < 1)
-			{
-				iS = inputSignal(vi);
-				procOutS = procOutputSignal(iS);
-				rA = takeRightAns(vi);
-			}
+			iS = inputSignal(vi);
+			procOutS = procOutputSignal(iS);
+			rA = takeRightAns(vi);
 
-			else
-			{
-				iS = inputSignal(standards);
-				procOutS = procOutputSignal(iS);
-				rA = takeRightAns(standards);
-			}
+			//if (randomizer > 0)
+			//{
+			//	iS = inputSignal(vi);
+			//	procOutS = procOutputSignal(iS);
+			//	rA = takeRightAns(vi);
+			//}
+			//else
+			//{
+			//	iS = inputSignal(standards);
+			//	procOutS = procOutputSignal(iS);
+			//	rA = takeRightAns(standards);
+			//}
 			
-
 			for (int i = 0; i < 5; ++i)
 			{
 				for (int j = 0; j < 3; ++j)
